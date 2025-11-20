@@ -1,0 +1,59 @@
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs
+hs_err_pid*
+
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# NetBeans files
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.mvn/
+
+# IntelliJ files
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Maven target folder
+target/
+
+# Java temp folders
+bin/
+tmp/
+
+# -----------------------------
+# IGNORAR ARCHIVOS ESPECÍFICOS
+# -----------------------------
+
+# Clases que querés ignorar
+src/ar/edu/unlam/pb2/parcial/MaestriaInsuficienteException.java
+src/ar/edu/unlam/pb2/parcial/MaestroElemental.java
+src/ar/edu/unlam/pb2/parcial/MaestroElementalTest.java
