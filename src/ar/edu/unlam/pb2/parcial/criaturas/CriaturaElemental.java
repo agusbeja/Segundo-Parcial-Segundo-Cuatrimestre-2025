@@ -36,6 +36,28 @@ public abstract class CriaturaElemental {
 	 public ComportamientoEmocional getComportamiento() {
 	    return comportamiento;
 	 }
+	 public void interactuarCon(CriaturaElemental otra) {		   
+		    if (this.afinidadPrincipal == otra.afinidadPrincipal) {
+		        this.energia += 10;
+		        otra.setEnergia(otra.getEnergia() + 10);
+		        return;
+		    }		    
+		    if (sonOpuestas(this.afinidadPrincipal, otra.afinidadPrincipal)) {
+		        this.comportamiento = ComportamientoEmocional.INESTABLE;
+		        otra.comportamiento = ComportamientoEmocional.INESTABLE;
+		        return;
+		    }
+		}
+	 
+	 private boolean sonOpuestas(AfinidadElemental a, AfinidadElemental b) {
+		 boolean sonOpuestos = false;
+		 if (a == afinidadPrincipal.FUEGO && b == AfinidadElemental.AGUA || a == AfinidadElemental.AGUA && b == AfinidadElemental.FUEGO) {
+			 sonOpuestos = true;
+		 } else if (a == AfinidadElemental.AIRE && b == AfinidadElemental.TIERRA || a == AfinidadElemental.TIERRA && b == AfinidadElemental.AIRE) {
+			 sonOpuestos = true;
+		 }		   
+		 return sonOpuestos;
+		}
     
 	 public abstract void entrenar(int energiaAgregada);
 	 public abstract void pacificar();

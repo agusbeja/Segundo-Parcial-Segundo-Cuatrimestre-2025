@@ -68,7 +68,10 @@ public class MaestroElemental {
 	}
 
 	public void pacificarCriatura(String nombreCriatura) {
-		CriaturaElemental criatura = this.criaturas.get(nombreCriatura);		
+		CriaturaElemental criatura = this.criaturas.get(nombreCriatura);	
+		if (criatura == null) {
+			throw new IllegalArgumentException("La criatura " + nombreCriatura + " no existe");
+		} 
 		criatura.pacificar();
 	}
 	

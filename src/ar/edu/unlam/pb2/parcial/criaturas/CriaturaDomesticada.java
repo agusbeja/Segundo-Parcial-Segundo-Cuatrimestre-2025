@@ -17,8 +17,7 @@ public class CriaturaDomesticada extends CriaturaElemental {
 
 	@Override
 	public void pacificar() {
-		// TODO Auto-generated method stub
-
+		this.comportamiento = ComportamientoEmocional.TRANQUILO;
 	}
 
 }

@@ -24,7 +24,19 @@ public class CriaturaAncestral extends CriaturaElemental {
 
 	@Override
 	public void pacificar() {
-		
+		this.comportamiento = ComportamientoEmocional.TRANQUILO;
+	}
+	
+	@Override
+	public void interactuarCon(CriaturaElemental otra) {
+	    this.energia += 20;
+
+	    int energiaRestante = otra.getEnergia() - 15;
+	    if (energiaRestante < 0) {
+	    	energiaRestante = 0;
+	    }
+
+	    otra.setEnergia(energiaRestante);
 	}
 
 }
