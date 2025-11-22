@@ -1,4 +1,7 @@
-package ar.edu.unlam.pb2.parcial;
+package ar.edu.unlam.pb2.parcial.criaturas;
+
+import ar.edu.unlam.pb2.parcial.enums.AfinidadElemental;
+import ar.edu.unlam.pb2.parcial.enums.ComportamientoEmocional;
 
 public abstract class CriaturaElemental {
 	protected String nombre;

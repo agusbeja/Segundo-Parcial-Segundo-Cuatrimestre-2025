@@ -1,4 +1,8 @@
-package ar.edu.unlam.pb2.parcial;
+package ar.edu.unlam.pb2.parcial.criaturas;
+
+import ar.edu.unlam.pb2.parcial.enums.AfinidadElemental;
+import ar.edu.unlam.pb2.parcial.enums.ComportamientoEmocional;
+import ar.edu.unlam.pb2.parcial.maestros.DesbordeDeEnergiaException;
 
 public class CriaturaSalvaje extends CriaturaElemental {
 

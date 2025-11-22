@@ -2,6 +2,14 @@ package ar.edu.unlam.pb2.parcial;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import ar.edu.unlam.pb2.parcial.criaturas.CriaturaAncestral;
+import ar.edu.unlam.pb2.parcial.criaturas.CriaturaDomesticada;
+import ar.edu.unlam.pb2.parcial.criaturas.CriaturaElemental;
+import ar.edu.unlam.pb2.parcial.criaturas.CriaturaSalvaje;
+import ar.edu.unlam.pb2.parcial.enums.AfinidadElemental;
+import ar.edu.unlam.pb2.parcial.enums.ComportamientoEmocional;
+import ar.edu.unlam.pb2.parcial.maestros.DesbordeDeEnergiaException;
+
 public class CriaturaElementalTest {
 	
 	@Test
@@ -14,6 +22,18 @@ public class CriaturaElementalTest {
 		assertEquals(ComportamientoEmocional.TRANQUILO, criatura1.getComportamiento());
 	}
 	
+	@Test
+	public void creoUnaCriaturaDomesticadaYSiempreSuComportamientoEmocionalVaASerTranquilo() {
+		CriaturaElemental criatura1 = new CriaturaDomesticada("Pikachu", 40, AfinidadElemental.AGUA, ComportamientoEmocional.INESTABLE);		
+		
+		assertEquals(ComportamientoEmocional.TRANQUILO, criatura1.getComportamiento());
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void creoUnaCriaturaAncestralYSiLaCreoConMenosDe100DeEnergiaSeTiraUnaIllegalArgumentExcepcion() {
+		CriaturaElemental criatura1 = new CriaturaAncestral("Pikachu", 40, AfinidadElemental.AGUA, ComportamientoEmocional.INESTABLE);			
+	}
+	 
 	@Test 
 	public void alEntrenarUnaCriaturaSalvajeAumenteSuEnergia() {
 		CriaturaElemental criatura1 = new CriaturaSalvaje("Pikachu", 100, AfinidadElemental.AGUA, ComportamientoEmocional.TRANQUILO);
@@ -40,6 +60,8 @@ public class CriaturaElementalTest {
 		criatura1.entrenar(20);		
 		assertEquals(210, criatura1.getEnergia());
 	}
+	
+	
 	
 	
 	
