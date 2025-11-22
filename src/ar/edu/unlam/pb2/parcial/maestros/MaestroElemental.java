@@ -50,7 +50,7 @@ public class MaestroElemental {
 	}
 
 	public void entrenarCriatura(String nombreCriatura, int puntos) throws MaestriaInsuficienteException {
-		
+
 		if (puntos <= 0) {
 			throw new IllegalArgumentException("Los puntos de entrenamiento deben ser positivos");
 		}
@@ -62,44 +62,72 @@ public class MaestroElemental {
 		CriaturaElemental criatura = this.criaturas.get(nombreCriatura);
 		if (criatura == null) {
 			throw new IllegalArgumentException("La criatura " + nombreCriatura + " no existe");
-		} 
+		}
 
 		criatura.entrenar(puntos);
 	}
 
 	public void pacificarCriatura(String nombreCriatura) {
-		CriaturaElemental criatura = this.criaturas.get(nombreCriatura);	
+		CriaturaElemental criatura = this.criaturas.get(nombreCriatura);
 		if (criatura == null) {
 			throw new IllegalArgumentException("La criatura " + nombreCriatura + " no existe");
-		} 
+		}
 		criatura.pacificar();
 	}
-	
+
 	public void transformarCriatura(String nombre, TipoTransformacion tipo) {
 		CriaturaElemental original = this.criaturas.get(nombre);
-	    if (original == null) {
-	        throw new IllegalArgumentException("La criatura " + nombre + " no existe");
-	    }
+		if (original == null) {
+			throw new IllegalArgumentException("La criatura " + nombre + " no existe");
+		}
 
-	    CriaturaElemental transformada;
+		CriaturaElemental transformada;
 
-	    switch (tipo) {
-	        case BENDICION_DEL_RIO:
-	            transformada = new BendicionDelRio(original);
-	            break;
-	        case LLAMA_INTERNA:
-	            transformada = new LlamaInterna(original);
-	            break;
-	        case VINCULO_TERRESTRE:
-	            transformada = new VInculoTerrestre(original);
-	            break;
-	        case ASCENSO_DEL_VIENTO:
-	            transformada = new AscensoDelViento(original);
-	            break;
-	        default:
-	            throw new IllegalArgumentException("Tipo de transformación no soportado: " + tipo);
-	    }
-	    
-	    this.criaturas.put(nombre, transformada);
+		switch (tipo) {
+		case BENDICION_DEL_RIO:
+			transformada = new BendicionDelRio(original);
+			break;
+		case LLAMA_INTERNA:
+			transformada = new LlamaInterna(original);
+			break;
+		case VINCULO_TERRESTRE:
+			transformada = new VInculoTerrestre(original);
+			break;
+		case ASCENSO_DEL_VIENTO:
+			transformada = new AscensoDelViento(original);
+			break;
+		default:
+			throw new IllegalArgumentException("Tipo de transformación no soportado: " + tipo);
+		}
+
+		this.criaturas.put(nombre, transformada);
 	}
+
+	public java.util.List<CriaturaElemental> getCriaturasRegistradas() {
+		return new java.util.ArrayList<>(this.criaturas.values());
+	}
+
+	public int getCantidadDeTransformadas() {
+		int cantidad = 0;
+		for (CriaturaElemental criatura : this.criaturas.values()) {
+			if (criatura.estaTransformada()) {
+				cantidad++;
+			}
+		}
+		return cantidad;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    MaestroElemental otro = (MaestroElemental) obj;
+	    return nombre.equals(otro.nombre);
+	}
+
+	@Override
+	public int hashCode() {
+	    return nombre.hashCode();
+	}
+
 }
