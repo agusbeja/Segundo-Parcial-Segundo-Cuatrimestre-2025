@@ -1,6 +1,8 @@
 package ar.edu.unlam.pb2.parcial.maestros;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ar.edu.unlam.pb2.parcial.criaturas.CriaturaElemental;
@@ -9,7 +11,6 @@ import ar.edu.unlam.pb2.parcial.enums.TipoTransformacion;
 import ar.edu.unlam.pb2.parcial.transformaciones.AscensoDelViento;
 import ar.edu.unlam.pb2.parcial.transformaciones.BendicionDelRio;
 import ar.edu.unlam.pb2.parcial.transformaciones.LlamaInterna;
-import ar.edu.unlam.pb2.parcial.transformaciones.Transformacion;
 import ar.edu.unlam.pb2.parcial.transformaciones.VInculoTerrestre;
 
 public class MaestroElemental {
@@ -54,7 +55,9 @@ public class MaestroElemental {
 		if (puntos <= 0) {
 			throw new IllegalArgumentException("Los puntos de entrenamiento deben ser positivos");
 		}
-
+		//EN EQUIPO DECIDIMOS QUE CUANDO UN MAESTRO CON CIERTO GRADO DE MAESTRIA
+		//INTENTA INTRENAR A UNA CRIATURA AGREGANDO MAS PUNTOS QUE SU GRADO DE MAESTRIA ENTONCES NO 
+		//TIENE MAESTRIA SUFICIENTE Y POR LO TANTO SE LANZA UN MAESTRIAINSUFICIENTEEXCEPTION
 		if (this.maestria < puntos) {
 			throw new MaestriaInsuficienteException(
 					"Maestría insuficiente: nivel " + this.maestria + " < puntos de entrenamiento " + puntos);
@@ -103,8 +106,14 @@ public class MaestroElemental {
 		this.criaturas.put(nombre, transformada);
 	}
 
-	public java.util.List<CriaturaElemental> getCriaturasRegistradas() {
-		return new java.util.ArrayList<>(this.criaturas.values());
+	public List<CriaturaElemental> getCriaturasRegistradas() {
+		List<CriaturaElemental> lista = new ArrayList<CriaturaElemental>();
+
+        for (CriaturaElemental criatura : this.criaturas.values()) {
+            lista.add(criatura);
+        }
+
+		return lista;
 	}
 
 	public int getCantidadDeTransformadas() {

@@ -13,6 +13,13 @@ import ar.edu.unlam.pb2.parcial.enums.ComportamientoEmocional;
 
 
 public class InteraccionesTest {
+	@Test (expected = IllegalArgumentException.class)
+	public void queUnaCriaturaNoPuedaInteractuarConsigoMisma() {	    
+	    CriaturaElemental normal = new CriaturaSalvaje("pikachu", 90, AfinidadElemental.AGUA, ComportamientoEmocional.TRANQUILO);
+
+	    normal.interactuarCon(normal); 	      
+	}
+	
 	@Test
 	public void queDosCriatuasConLasMismaAFinidadDeENergiaInteractuenYsumen10DeENergia() {
 		CriaturaElemental criatura1 = new CriaturaSalvaje("A", 50, AfinidadElemental.FUEGO, ComportamientoEmocional.TRANQUILO);
@@ -26,7 +33,7 @@ public class InteraccionesTest {
 	
 	@Test
 	public void queDosCriaturasConAfinidadesOpuestasSeVuelvanInestables() {
-	    CriaturaElemental agua = new CriaturaDomesticada("pikachu", 50, AfinidadElemental.AGUA, ComportamientoEmocional.TRANQUILO);
+	    CriaturaElemental agua = new CriaturaAncestral("pikachu", 110, AfinidadElemental.AGUA, ComportamientoEmocional.TRANQUILO);
 	    CriaturaElemental fuego = new CriaturaSalvaje("raychu", 80, AfinidadElemental.FUEGO, ComportamientoEmocional.TRANQUILO);
 
 	    agua.interactuarCon(fuego);
@@ -36,14 +43,33 @@ public class InteraccionesTest {
 	}
 	
 	@Test
+	public void queDosCriaturasConAfinidadesOpuestasPeroUnaDeEsasEsDomesticadaInteractuenPeroSoloLaQueNoEsDomesticadaSeVuelvaInestable() {
+	    CriaturaElemental agua = new CriaturaDomesticada("pikachu", 50, AfinidadElemental.AGUA, ComportamientoEmocional.TRANQUILO);
+	    CriaturaElemental fuego = new CriaturaSalvaje("raychu", 80, AfinidadElemental.FUEGO, ComportamientoEmocional.TRANQUILO);
+
+	    agua.interactuarCon(fuego);
+
+	    assertEquals(ComportamientoEmocional.TRANQUILO, agua.getComportamiento());
+	    assertEquals(ComportamientoEmocional.INESTABLE, fuego.getComportamiento());
+	}
+	
+	@Test
 	public void queUnaCriaturaAncestralInteraccioneConOtroTipoDeCriaturaYQueEstaDomine() {
 	    CriaturaElemental ancestral = new CriaturaAncestral("rayquaza", 120, AfinidadElemental.TIERRA, ComportamientoEmocional.TRANQUILO);
 	    CriaturaElemental normal = new CriaturaSalvaje("pikachu", 90, AfinidadElemental.AGUA, ComportamientoEmocional.TRANQUILO);
 
-	    ancestral.interactuarCon(normal);
-	    normal.interactuarCon(ancestral);
-
-	    assertEquals(140, ancestral.getEnergia());   
-	    assertEquals(75, normal.getEnergia());       
+	    ancestral.interactuarCon(normal); 
+	    assertEquals(140, ancestral.getEnergia()); 	        
 	}
+	
+	@Test
+	public void queUnaCriaturaNoAncestralInteraccioneConUnaCriaturaAncestralYQueLaAncestralDomine() {
+	    CriaturaElemental ancestral = new CriaturaAncestral("rayquaza", 120, AfinidadElemental.TIERRA, ComportamientoEmocional.TRANQUILO);
+	    CriaturaElemental normal = new CriaturaSalvaje("pikachu", 90, AfinidadElemental.AGUA, ComportamientoEmocional.TRANQUILO);
+
+	    normal.interactuarCon(ancestral); 
+	    assertEquals(75, normal.getEnergia()); 	        
+	}
+	
+	
 }

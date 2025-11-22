@@ -16,13 +16,28 @@ public class ReportesConsejo {
 	public List<CriaturaElemental> obtenerTodasLasCriaturas() {
 		List<CriaturaElemental> criaturas = new ArrayList<>();
 		for (MaestroElemental m : maestros) {
-			criaturas.addAll(m.getCriaturasRegistradas());
+			for (CriaturaElemental c : m.getCriaturasRegistradas()) {
+                criaturas.add(c);
+            }
 		}
 		return criaturas;
 	}
 
 	public CriaturaElemental obtenerCriaturaMayorEnergia() {
-		return obtenerTodasLasCriaturas().stream().max(Comparator.comparingInt(c -> c.getEnergia())).orElse(null);
+		List<CriaturaElemental> criaturas = obtenerTodasLasCriaturas();
+		
+        if (criaturas.isEmpty()) {
+            return null;
+        }
+
+        CriaturaElemental mayor = criaturas.get(0);
+
+        for (CriaturaElemental c : criaturas) {
+            if (c.getEnergia() > mayor.getEnergia()) {
+                mayor = c;
+            }
+        }
+        return mayor;
 	}
 
 	public MaestroElemental obtenerMaestroMasTransformaciones(List<MaestroElemental> maestros) {
@@ -36,15 +51,26 @@ public class ReportesConsejo {
 	            mejor = m;
 	        }
 	    }
-
 	    return mejor;
 	}
+	
 	public Map<AfinidadElemental, Integer> obtenerCantidadPorAfinidad() {
 		Map<AfinidadElemental, Integer> conteo = new HashMap<>();
 
-		for (CriaturaElemental c : obtenerTodasLasCriaturas()) {
-			conteo.merge(c.getAfinidadPrincipal(), 1, Integer::sum);
-		}
-		return conteo;
+        List<CriaturaElemental> criaturas = obtenerTodasLasCriaturas();
+
+        for (CriaturaElemental c : criaturas) {
+
+            AfinidadElemental afinidad = c.getAfinidadPrincipal();
+
+            if (!conteo.containsKey(afinidad)) {
+                conteo.put(afinidad, 1);
+            } else {
+                int valorActual = conteo.get(afinidad);
+                conteo.put(afinidad, valorActual + 1);
+            }
+        }
+
+        return conteo;
 	}
 }

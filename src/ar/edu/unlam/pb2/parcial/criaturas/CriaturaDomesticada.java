@@ -19,5 +19,10 @@ public class CriaturaDomesticada extends CriaturaElemental {
 	public void pacificar() {
 		this.comportamiento = ComportamientoEmocional.TRANQUILO;
 	}
+	
+	@Override
+    public boolean puedeVolverseInestable() {
+        return false;
+    }
 
 }

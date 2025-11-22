@@ -38,23 +38,43 @@ public abstract class CriaturaElemental {
 	public ComportamientoEmocional getComportamiento() {
 		return comportamiento;
 	}
-
+	
+	 public boolean esAncestral() {
+	        return false;
+	    }
+	 public boolean puedeVolverseInestable() {
+	        return true;
+	    }
+	 
 	public void interactuarCon(CriaturaElemental otra) {
+		if (this == otra) {
+	        throw new IllegalArgumentException("Una criatura no puede interactuar consigo misma");	        
+	    }
+		if (this.esAncestral() && !otra.esAncestral()) {
+            dominarInteraccion(this, otra);            
+        }
+        if (!this.esAncestral() && otra.esAncestral()) {
+            dominarInteraccion(otra, this);            
+        }
+		
 		if (this.afinidadPrincipal == otra.afinidadPrincipal) {
 			this.energia += 10;
-			otra.setEnergia(otra.getEnergia() + 10);
-			return;
+			otra.setEnergia(otra.getEnergia() + 10);			
 		}
 		if (sonOpuestas(this.afinidadPrincipal, otra.afinidadPrincipal)) {
-			this.comportamiento = ComportamientoEmocional.INESTABLE;
-			otra.comportamiento = ComportamientoEmocional.INESTABLE;
-			return;
-		}
+           
+            if (this.puedeVolverseInestable()) {
+                this.comportamiento = ComportamientoEmocional.INESTABLE;
+            }
+            if (otra.puedeVolverseInestable()) {
+                otra.comportamiento = ComportamientoEmocional.INESTABLE;
+            }           
+        }
 	}
 
 	private boolean sonOpuestas(AfinidadElemental a, AfinidadElemental b) {
 		boolean sonOpuestos = false;
-		if (a == afinidadPrincipal.FUEGO && b == AfinidadElemental.AGUA
+		if (a == AfinidadElemental.FUEGO && b == AfinidadElemental.AGUA
 				|| a == AfinidadElemental.AGUA && b == AfinidadElemental.FUEGO) {
 			sonOpuestos = true;
 		} else if (a == AfinidadElemental.AIRE && b == AfinidadElemental.TIERRA
@@ -63,6 +83,16 @@ public abstract class CriaturaElemental {
 		}
 		return sonOpuestos;
 	}
+	
+	private void dominarInteraccion(CriaturaElemental ancestral, CriaturaElemental otra) {
+        ancestral.setEnergia(ancestral.getEnergia() + 20);
+
+        int energiaRestante = otra.getEnergia() - 15;
+        if (energiaRestante < 0) {
+            energiaRestante = 0;
+        }
+        otra.setEnergia(energiaRestante);
+    }
 
 	public abstract void entrenar(int energiaAgregada);
 
